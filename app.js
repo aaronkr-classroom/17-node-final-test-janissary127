@@ -102,9 +102,10 @@ const mongoose = require("mongoose"), // mongoose를 요청
   dbName = "ut-nodejs";
 
 // 데이터베이스 연결 설정
-mongoose.connect(`mongodb://127.0.0.1:27017/${dbName}`, {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://ut-node:cL5Jr31XyLBaMX9d@ut-node.msefbvf.mongodb.net/?retryWrites=true&w=majority&appName=UT-node",
+  { useNewUrlParser : true }
+);
 
 // 연결되면 메시지를 보냄
 const db = mongoose.connection;
@@ -182,6 +183,28 @@ router.delete(
   "/users/:id/delete",
   usersController.delete,
   usersController.redirectView
+);
+/**
+ * Users
+ */
+router.get("/discussions", discussionsController.index, discussionsController.indexView); // index 라우트 생성
+router.get("/discussions/new", discussionsController.new); // 생성 폼을 보기 위한 요청 처리
+router.post(
+  "/discussions/create",
+  discussionsController.create,
+  discussionsController.redirectView
+); // 생성 폼에서 받아온 데이터의 처리와 결과를 사용자 보기 페이지에 보여주기
+router.get("/discussions/:id", discussionsController.show, discussionsController.showView);
+router.get("/discussions/:id/edit", discussionsController.edit); // viewing을 처리하기 위한 라우트 추가
+router.put(
+  "/discussions/:id/update",
+  discussionsController.update,
+  discussionsController.redirectView
+); // 편집 폼에서 받아온 데이터의 처리와 결과를 사용자 보기 페이지에 보여주기
+router.delete(
+  "/discussions/:id/delete",
+  discussionsController.delete,
+  discussionsController.redirectView
 );
 
 /**
